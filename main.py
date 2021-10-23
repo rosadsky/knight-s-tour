@@ -13,10 +13,7 @@ def EulerovKon(chessboard_size):
                   [0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0]]
 
-    for x in range(8):
-        for y in range(8):
-            print(chessboard[x][y], end=" ")
-        print("")
+
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
     windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
@@ -38,15 +35,22 @@ def moveValidation(position_x, position_y, chessboard_size,chessboard):
     else:
         return False
 
+def printChessboard(chessboard):
+    for x in range(8):
+        for y in range(8):
+            print(chessboard[x][y], end=" ")
+        print("")
 
 def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):
     position_x = starting_position_x
     position_y = starting_position_y
 
  #   positions = checkHorseInChessboard(chessboard_size,position_x,position_y,x_move,y_move,chessboard)
-    positions = checkHorseInChessboard(chessboard_size, 7, 6 , x_move, y_move, chessboard)
+    positions = checkHorseInChessboard(chessboard_size, 0, 0 , x_move, y_move, chessboard)
     #print(positions)
     minimum = []
+    moves_counter = 0
+
 
     for possible_move in positions:
         print("MOVE:")
@@ -56,7 +60,15 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
         print(possible_move_positions)
 
         if(len(minimum) > len(possible_move_positions) or len(minimum) == 0):
-            minimum = possible_move_positions
+            minimum = possible_move
+
+    moves_counter =+ 1
+    print(minimum)
+    position_x = minimum[0]
+    position_y = minimum[1]
+    chessboard[position_x][position_y] = moves_counter
+
+    #printChessboard(chessboard)
 
     print("FINAL MINIMUM")
     print(minimum)
