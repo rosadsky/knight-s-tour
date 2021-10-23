@@ -1,8 +1,12 @@
 def EulerovKon(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
     y_move = [1, 2, 2, 1, -1, -2, -2, -1]
-    starting_position_x = 0
-    starting_position_y = 0
+
+    print("Insert the X position of starting point from 0 - " + str(chessboard_size - 1) )
+    starting_position_x = int(input())
+    print("Insert the Y position of starting point from 0 - " + str(chessboard_size - 1) )
+    starting_position_y = int(input())
+
 
     chessboard = [[0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -46,8 +50,7 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
     position_y = starting_position_y
 
  #   positions = checkHorseInChessboard(chessboard_size,position_x,position_y,x_move,y_move,chessboard)
-    position_x = 0
-    position_y = 0
+
     #print(positions)
 
     moves_counter = 0
@@ -56,31 +59,32 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
         positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)
         minimum = positions[0]
         for possible_move in positions:
-            print("MOVE:")
-            print(possible_move)
+            #print("MOVE:")
+            #print(possible_move)
             possible_move_positions = checkHorseInChessboard(chessboard_size,possible_move[0],possible_move[1],x_move,y_move,chessboard)
             possible_minimum = checkHorseInChessboard(chessboard_size,minimum[0],minimum[1],x_move,y_move,chessboard)
-            print("PMP:")
-            print(possible_move_positions)
+            #print("PMP:")
+            #print(possible_move_positions)
 
             if(len(possible_minimum) >= len(possible_move_positions) or len(minimum) == 0):
                 minimum = possible_move
 
         moves_counter += 1
-        print(minimum)
-        print("COUNTER ==" + str(moves_counter))
+        #print(minimum)
+        #print("COUNTER ==" + str(moves_counter))
         position_x = minimum[0]
         position_y = minimum[1]
         chessboard[position_x][position_y] = moves_counter
 
         #printChessboard(chessboard)
 
-        print("FINAL MINIMUM")
-        print(minimum)
+        #print("FINAL MINIMUM")
+        #print(minimum)
 
 
 
         printChessboard(chessboard)
+        print("-------------------------")
 
 
 
@@ -89,6 +93,6 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
 
 
 if __name__ == '__main__':
-    print("Zadaj Veľkosť plochy: \n")
+    print("Insert size of chessboard X: \n")
     chessboard_size = int(input())
     EulerovKon(chessboard_size)
