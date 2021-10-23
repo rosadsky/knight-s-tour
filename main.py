@@ -1,3 +1,4 @@
+import time
 
 def EulerSolve(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
@@ -23,7 +24,6 @@ def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_mo
     return layout
 
 def moveValidation(position_x, position_y, chessboard_size,chessboard):
-    #print("Validating position -> " + str(position_x) + " | " + str(position_y))
 
     if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == 0:
         #print("VALID: " + str(position_x) +  " AND " + str(position_y))
@@ -41,9 +41,7 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
     position_x = starting_position_x
     position_y = starting_position_y
 
- #   positions = checkHorseInChessboard(chessboard_size,position_x,position_y,x_move,y_move,chessboard)
-
-    #print(positions)
+    start = time.perf_counter()
 
     moves_counter = 1
 
@@ -57,43 +55,33 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
             print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")
             break
         minimum = positions[0]
-        print("MINIMUM")
-        print(minimum)
         for possible_move in positions:
-            #print("MOVE:")
-            #print(possible_move)
             possible_move_positions = checkHorseInChessboard(chessboard_size,possible_move[0],possible_move[1],x_move,y_move,chessboard)
             possible_minimum = checkHorseInChessboard(chessboard_size,minimum[0],minimum[1],x_move,y_move,chessboard)
-            #print("PMP:")
-            #print(possible_move_positions)
+
 
             if(len(possible_minimum) >= len(possible_move_positions) or len(minimum) == 0):
                 minimum = possible_move
 
         moves_counter += 1
-        #print(minimum)
-        #print("COUNTER ==" + str(moves_counter))
+
 
 
         position_x = minimum[0]
         position_y = minimum[1]
         chessboard[position_x][position_y] = moves_counter
 
-        #printChessboard(chessboard)
-
-        #print("FINAL MINIMUM")
-        #print(minimum)
-
-
 
         printChessboard(chessboard,chessboard_size)
         print("MOVE NO. " + str(moves_counter))
-       # print("-------------------------")
+        print("-------------------------")
 
 
 
     printChessboard(chessboard,chessboard_size)
-
+    end = time.perf_counter()
+    print("TOTAL TIME: ")
+    print(end - start)
 
 
 if __name__ == '__main__':
