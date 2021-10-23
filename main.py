@@ -1,6 +1,5 @@
-import numpy as np
 
-def EulerovKon(chessboard_size):
+def EulerSolve(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
     y_move = [1, 2, 2, 1, -1, -2, -2, -1]
 
@@ -46,9 +45,11 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
 
     #print(positions)
 
-    moves_counter = 0
+    moves_counter = 1
 
-    iterations = chessboard_size * chessboard_size
+    chessboard[position_x][position_y] = moves_counter
+
+    iterations = chessboard_size * chessboard_size - 1
 
     for x in range(iterations):
         positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)
@@ -56,6 +57,8 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
             print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")
             break
         minimum = positions[0]
+        print("MINIMUM")
+        print(minimum)
         for possible_move in positions:
             #print("MOVE:")
             #print(possible_move)
@@ -85,15 +88,15 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
 
         printChessboard(chessboard,chessboard_size)
         print("MOVE NO. " + str(moves_counter))
-        print("-------------------------")
+       # print("-------------------------")
 
 
 
-
+    printChessboard(chessboard,chessboard_size)
 
 
 
 if __name__ == '__main__':
     print("Insert size of chessboard X: \n")
     chessboard_size = int(input())
-    EulerovKon(chessboard_size)
+    EulerSolve(chessboard_size)
