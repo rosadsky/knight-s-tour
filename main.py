@@ -1,9 +1,8 @@
 def EulerovKon(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
     y_move = [1, 2, 2, 1, -1, -2, -2, -1]
-
-    position_x = 0
-    position_y = 0
+    starting_position_x = 0
+    starting_position_y = 0
 
     chessboard = [[0, 0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -19,28 +18,35 @@ def EulerovKon(chessboard_size):
             print(chessboard[x][y], end=" ")
         print("")
 
-    checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
+    #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
+    windstoffAlgorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
 
-
-def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move):
+def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):
     layout = []
     for i in range(8):
-        if moveValidation(position_x + x_move[i], position_y + y_move[i], chessboard_size):
+        #print("X: " + str(position_x + x_move[i]), "Y : " + str(position_y+ y_move[i]))
+        if moveValidation(position_x + x_move[i], position_y + y_move[i], chessboard_size,chessboard):
             layout.append([position_x + x_move[i], position_y + y_move[i]])
 
     return layout
 
+def moveValidation(position_x, position_y, chessboard_size,chessboard):
+    print("Validating position -> " + str(position_x) + " | " + str(position_y))
 
-def moveValidation(position_x, position_y, chessboard_size):
-    print("Validating position")
-    if position_x < 0 or position_x >= chessboard_size or position_y < 0 or position_y >= chessboard_size:
-        return False
-    else:
+    if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == 0:
+        print("VALID: " + str(position_x) +  " AND " + str(position_y))
         return True
+    else:
+        return False
 
 
-def windstoffAlgorhithm():
-    print("algo")
+def windstoffAlgorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):
+    position_x = starting_position_x
+    position_y = starting_position_y
+
+    positions = checkHorseInChessboard(chessboard_size,position_x,position_y,x_move,y_move,chessboard)
+    print(positions)
+
 
 
 if __name__ == '__main__':
