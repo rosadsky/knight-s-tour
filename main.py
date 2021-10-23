@@ -1,3 +1,5 @@
+import numpy as np
+
 def EulerovKon(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
     y_move = [1, 2, 2, 1, -1, -2, -2, -1]
@@ -7,16 +9,7 @@ def EulerovKon(chessboard_size):
     print("Insert the Y position of starting point from 0 - " + str(chessboard_size - 1) )
     starting_position_y = int(input())
 
-
-    chessboard = [[0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0]]
-
+    chessboard = [[0 for i in range(chessboard_size)] for j in range(chessboard_size)]
 
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
@@ -39,9 +32,9 @@ def moveValidation(position_x, position_y, chessboard_size,chessboard):
     else:
         return False
 
-def printChessboard(chessboard):
-    for x in range(8):
-        for y in range(8):
+def printChessboard(chessboard,chessboard_size):
+    for x in range(chessboard_size):
+        for y in range(chessboard_size):
             print(chessboard[x][y], end=" ")
         print("")
 
@@ -55,8 +48,13 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
 
     moves_counter = 0
 
-    for x in range(63):
+    iterations = chessboard_size * chessboard_size
+
+    for x in range(iterations):
         positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)
+        if(len(positions) == 0):
+            print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")
+            break
         minimum = positions[0]
         for possible_move in positions:
             #print("MOVE:")
@@ -72,6 +70,8 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
         moves_counter += 1
         #print(minimum)
         #print("COUNTER ==" + str(moves_counter))
+
+
         position_x = minimum[0]
         position_y = minimum[1]
         chessboard[position_x][position_y] = moves_counter
@@ -83,7 +83,8 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
 
 
 
-        printChessboard(chessboard)
+        printChessboard(chessboard,chessboard_size)
+        print("MOVE NO. " + str(moves_counter))
         print("-------------------------")
 
 
