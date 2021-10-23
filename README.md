@@ -44,6 +44,15 @@ Tento for cyklus sa opakuje toľko krát koľko krokov môže kôň pre daný ro
 |Veľkosť šachovnice  | Pozícia X | Pozícia Y | Vykonaný čas (ms)  | Počet pohybov|
 |--|--|--|--|--|
 | 5x5 | 0 | 0 | 0.709 | 25 |
+|5x5|1|2|XXX|XXX*|
+|5x5|3|4|XXX|XXX*|
+|5x5|2|2|0.868|25||
 |7x7|0|0|2.205|49|
 |8x8|1|1|3.0|64|
+|10x10|3|5|5.485|100|
+|10x10|6|1|4.603|100|
 |15x15|5|5|7.65|225|
+|100x100|0|0|390.915|10000|
+|255x255|50|50|2549.646|65025
+
+*pre tento vstup program nenašiel riešenie 
