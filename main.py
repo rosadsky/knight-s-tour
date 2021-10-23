@@ -13,7 +13,7 @@ def EulerSolve(chessboard_size):
 
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
-    windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
+    windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
 
 def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):
     layout = []
@@ -37,11 +37,11 @@ def printChessboard(chessboard,chessboard_size):
             print(chessboard[x][y], end=" ")
         print("")
 
-def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):
+def windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):
     position_x = starting_position_x
     position_y = starting_position_y
 
-    start = time.perf_counter()
+    start = time.time_ns()
 
     moves_counter = 1
 
@@ -55,33 +55,33 @@ def windstoffAlghorhithm(starting_position_x,starting_position_y,chessboard,x_mo
             print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")
             break
         minimum = positions[0]
+
         for possible_move in positions:
             possible_move_positions = checkHorseInChessboard(chessboard_size,possible_move[0],possible_move[1],x_move,y_move,chessboard)
             possible_minimum = checkHorseInChessboard(chessboard_size,minimum[0],minimum[1],x_move,y_move,chessboard)
-
 
             if(len(possible_minimum) >= len(possible_move_positions) or len(minimum) == 0):
                 minimum = possible_move
 
         moves_counter += 1
-
-
-
         position_x = minimum[0]
         position_y = minimum[1]
         chessboard[position_x][position_y] = moves_counter
 
 
-        printChessboard(chessboard,chessboard_size)
-        print("MOVE NO. " + str(moves_counter))
-        print("-------------------------")
+        #printChessboard(chessboard,chessboard_size)
+        #print("MOVE NO. " + str(moves_counter))
+        #print("-------------------------")
 
 
 
     printChessboard(chessboard,chessboard_size)
-    end = time.perf_counter()
-    print("TOTAL TIME: ")
-    print(end - start)
+    end = time.time_ns()
+    total_time = end - start
+    print("------------------------")
+    print("TOTAL MOVES " + str(moves_counter))
+    print("TOTAL TIME: " + str(total_time/1000000) + " milliseconds..")
+
 
 
 if __name__ == '__main__':
