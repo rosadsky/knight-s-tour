@@ -1,5 +1,6 @@
 import time
 
+global steps
 
 
 def EulerSolve(chessboard_size):
@@ -14,15 +15,17 @@ def EulerSolve(chessboard_size):
     chessboard = [[-1 for i in range(chessboard_size)] for i in range(chessboard_size)]
 
 
-    chessboard[starting_position_x][starting_position_y] = 1
+    chessboard[starting_position_x][starting_position_y] = 0
 
     iteration = 1
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
     #windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
 
-    if (solveDPS(chessboard_size,chessboard,0,0,x_move,y_move, iteration)):
+    if (solveDPS(chessboard_size,chessboard,starting_position_x,starting_position_y,x_move,y_move, iteration)):
         printChessboard(chessboard,chessboard_size)
+    else:
+        print("RIEŠENIE NIEJE SHIT")
 
 def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):
     layout = []
@@ -93,26 +96,64 @@ def windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move
     if(finalCheck(chessboard,chessboard_size) == False):
         print("NO SOLUTION")
 
+def bubblesort(list,x_move,y_move,chessboard):
+   # print("SORTING")
+    #print(list)
+# Swap the elements to arrange in order
+    for iter_num in range(len(list)-1,0,-1):
+      for idx in range(iter_num):
+        first = checkHorseInChessboard(chessboard_size, list[idx][0], list[idx][1], x_move, y_move, chessboard)
+        second = checkHorseInChessboard(chessboard_size, list[idx+1][0], list[idx+1][1], x_move, y_move, chessboard)
+        if len(first)>len(second):
+            temp = list[idx]
+            list[idx] = list[idx+1]
+            list[idx+1] = temp
+            #print("CHANGE")
+
+    return list
+
 
 def solveDPS(chessboard_size,chessboard,position_x,position_y,x_move,y_move, iteration):
     if (iteration == chessboard_size ** 2):
         return True
 
-    for i in range(8):
-        new_postion_x = position_x + x_move[i]
-        new_postion_y = position_y + y_move[i]
+
+
+
+    #print(iteration)
+    positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)
+    positions = bubblesort(positions,x_move,y_move,chessboard)
+    #print(positions)
+    #for check in positions:
+        #print(len(checkHorseInChessboard(chessboard_size, check[0], check[1], x_move, y_move, chessboard)))
+
+
+
+    for i in positions:
+        new_postion_x = i[0]
+        new_postion_y = i[1]
+        #print("X: ["+ str(new_postion_x)+"] Y: [" + str(new_postion_y)+ "]")
+
         if (moveValidation(new_postion_x, new_postion_y, chessboard_size , chessboard)):
             chessboard[new_postion_x][new_postion_y] = iteration
-            print("MOVE: " + str(chessboard[new_postion_x][new_postion_y]))
+            #print("MOVE: " + str(chessboard[new_postion_x][new_postion_y]) + "iteration " + str(i))
+            #print("CHESSBOARD")
+            #printChessboard(chessboard,chessboard_size)
 
+
+            #FINAL CHECK
             if (solveDPS(chessboard_size,chessboard,new_postion_x,new_postion_y,x_move,y_move, iteration + 1)):
+                print("DPS TRUE")
                 return True
 
             # Backtracking
-            print("BACKTRACKING: " + str(chessboard[new_postion_x][new_postion_y]))
+            print("BACKTRACKING: " + str(chessboard[new_postion_x][new_postion_y]) + " i: " + str(i))
+            #printChessboard(chessboard, chessboard_size)
             chessboard[new_postion_x][new_postion_y] = -1
+            #print("PO")
+            #printChessboard(chessboard,chessboard_size)
 
-
+    #print("FALSE")
     return False
 
 def finalCheck(chessboard,chessboard_size):
