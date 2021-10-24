@@ -81,7 +81,19 @@ def windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move
     print("------------------------")
     print("TOTAL MOVES " + str(moves_counter))
     print("TOTAL TIME: " + str(total_time/1000000) + " milliseconds..")
+    if(finalCheck(chessboard,chessboard_size) == False):
+        print("NO SOLUTION")
 
+
+def finalCheck(chessboard,chessboard_size):
+
+    checkmark = True
+    for i in range(chessboard_size):
+        for j in range(chessboard_size):
+            if(chessboard[i][j] == 0):
+                checkmark = False
+
+    return checkmark
 
 
 if __name__ == '__main__':
