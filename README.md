@@ -38,7 +38,13 @@ for x in range(iterations):
 ```
 
 ### Algoritmus 
-Tento for cyklus sa opakuje toľko krát koľko krokov môže kôň pre daný rozmer šachovnice vykonať.  Program funguje tak že sa pozrie na to čo je stav do ktorého sa pozrieme a ako veľa dalších možných stavov sa môže vytvoriť v ňom. Ďalší krok teda bude taký že sa vyberie ten stav ktorý ma najmenej možných  nasledujúcich krokov. Ako sa správna pozícia nájde kôň sa na nu prepisuje a `moves_counter` sa zvýši o 1. Ako náhle prejdu všetky iterácie a nikde sa program nenastavil riešenie sa vypíše spolu s časovým údajom koľko trvalo aby program našiel všetky cesty. 
+Tento for cyklus sa opakuje toľko krát koľko krokov môže kôň pre daný rozmer šachovnice vykonať.
+Program funguje tak že sa pozrie na to čo je stav do ktorého sa pozrieme a ako veľa dalších možných
+stavov sa môže vytvoriť v ňom. Ďalší krok teda bude taký že sa vyberie ten stav ktorý ma najmenej možných
+nasledujúcich krokov. Ako sa správna pozícia nájde kôň sa na nu prepisuje a `moves_counter` sa zvýši o 1.
+Ako náhle prejdu všetky iterácie a nikde sa program nenastavil riešenie sa vypíše spolu s časovým údajom koľko trvalo
+aby program našiel všetky cesty. Ako posledné sa zavolá funkcia finalCheck ktorá ešte preistotu prejde celú šachovnicu
+a skontroluje či tam nieje 0. 
 
 # Testovanie
 |Veľkosť šachovnice  | Pozícia X | Pozícia Y | Vykonaný čas (ms)  | Počet pohybov|
