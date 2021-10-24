@@ -1,5 +1,7 @@
 import time
 
+
+
 def EulerSolve(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
     y_move = [1, 2, 2, 1, -1, -2, -2, -1]
@@ -9,7 +11,7 @@ def EulerSolve(chessboard_size):
     print("Insert the Y position of starting point from 0 - " + str(chessboard_size - 1) )
     starting_position_y = int(input())
 
-    chessboard = [[0 for i in range(chessboard_size)] for j in range(chessboard_size)]
+    chessboard = [[-1 for i in range(chessboard_size)] for j in range(chessboard_size)]
 
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
@@ -25,7 +27,7 @@ def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_mo
 
 def moveValidation(position_x, position_y, chessboard_size,chessboard):
 
-    if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == 0:
+    if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == -1:
         #print("VALID: " + str(position_x) +  " AND " + str(position_y))
         return True
     else:
@@ -84,6 +86,27 @@ def windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move
     if(finalCheck(chessboard,chessboard_size) == False):
         print("NO SOLUTION")
 
+
+def solveDPS(chessboard_size,chessboard,position_x,position_y,x_move,y_move, iteration):
+    if (iteration == chessboard_size ** 2):
+        return True
+
+    for i in range(8):
+        new_postion_x = position_x + x_move[i]
+        new_postion_y = position_y + y_move[i]
+        if (moveValidation(new_postion_x, new_postion_y, chessboard_size , chessboard)):
+            chessboard[new_postion_x][new_postion_y] = iteration
+            print("MOVE: " + str(chessboard[new_postion_x][new_postion_y]))
+
+            if (solveDPS(chessboard_size,chessboard,position_x,position_y,x_move,y_move, iteration + 1)):
+                return True
+
+            # Backtracking
+            #print("BACKTRACKING: " + str(board[new_x][new_y]))
+            chessboard[new_postion_x][new_postion_y] = -1
+
+
+    return False
 
 def finalCheck(chessboard,chessboard_size):
 

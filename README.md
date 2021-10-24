@@ -62,3 +62,10 @@ a skontroluje či tam nieje 0.
 |255x255|50|50|2549.646|65025
 
 *pre tento vstup program nenašiel riešenie 
+
+## Zhrnutie
+
+Na zlepšenie výsledku aby mohlo viac vstupov fungovať by bolo možno lepšie skúšať všetky možné možnosti ktoré 
+kôň môže prejsť čo by ale zapríčinilo veľmi vysoký počet operácií a program by sa vykonával veľmi dlho.
+Toto riešenie podľa Winsoff rule je celkom časovo nenáročné a s vysokou úspešnosťou, pretože program dokázal vyriešiť
+šachovnicu o veľkosti 255x255 pomerne za dobrý čas. 
