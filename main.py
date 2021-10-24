@@ -11,11 +11,18 @@ def EulerSolve(chessboard_size):
     print("Insert the Y position of starting point from 0 - " + str(chessboard_size - 1) )
     starting_position_y = int(input())
 
-    chessboard = [[-1 for i in range(chessboard_size)] for j in range(chessboard_size)]
+    chessboard = [[-1 for i in range(chessboard_size)] for i in range(chessboard_size)]
 
+
+    chessboard[starting_position_x][starting_position_y] = 1
+
+    iteration = 1
 
     #checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move)
-    windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
+    #windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size)
+
+    if (solveDPS(chessboard_size,chessboard,0,0,x_move,y_move, iteration)):
+        printChessboard(chessboard,chessboard_size)
 
 def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):
     layout = []
@@ -98,11 +105,11 @@ def solveDPS(chessboard_size,chessboard,position_x,position_y,x_move,y_move, ite
             chessboard[new_postion_x][new_postion_y] = iteration
             print("MOVE: " + str(chessboard[new_postion_x][new_postion_y]))
 
-            if (solveDPS(chessboard_size,chessboard,position_x,position_y,x_move,y_move, iteration + 1)):
+            if (solveDPS(chessboard_size,chessboard,new_postion_x,new_postion_y,x_move,y_move, iteration + 1)):
                 return True
 
             # Backtracking
-            #print("BACKTRACKING: " + str(board[new_x][new_y]))
+            print("BACKTRACKING: " + str(chessboard[new_postion_x][new_postion_y]))
             chessboard[new_postion_x][new_postion_y] = -1
 
 
