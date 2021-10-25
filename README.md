@@ -83,7 +83,7 @@ Testovanie programu prebiehali vo vývojovom prestredí PyCharm. Všetky otestov
 |8|8x8|1|1|2.791|64|  
 |9|8x8|3|7|3.14|64|  
 |10|10x10|3|5|8.317|100|  
-||1125x25|1|3|41.473|625|  
+|11|25x25|1|3|41.473|625|  
   
 *pre tento vstup program nenašiel riešenie   
   
