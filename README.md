@@ -3,69 +3,96 @@
 Roman Osadský
 Predmet: Umelá inteligencia 
 Cvičiaci: Ing. Boris Slíž
-
+IDE: PyCharm 2021.2.2
+CPU: 2,3 GHz Dual-Core Intel Core i5
+RAM: 8 GB 2133 MHz LPDDR3
+Jazyk: Python
+Operačný systém: MacOS
 ## Riešený problém
 
 **Eulerov kôň** - Úlohou je prejsť šachovnicu legálnymi ťahmi šachového koňa tak, aby každé políčko šachovnice bolo prejdené (navštívené) práve raz. Riešenie treba navrhnúť tak, aby bolo možné problém riešiť pre štvorcové šachovnice rôznych veľkostí (minimálne od veľkosti 5 x 5 do 20 x 20) a aby cestu po šachovnici bolo možné začať na ľubovoľnom východziom políčku.
 
 ## Riešenie 
 
-Načíta sa zo vstupu veľkosť poľa následne zadá štartovací bod z ktorého sa kôň začne pohybovať. Vytvorí sa šachovnica, ktorá je repzrezentovaná na začiatku array `chessboard` kde na každom indexe sa nachádza číslo 0. 
-Následne sa zovolá funkcia `windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):` kde sa celé riešenie problému odohráva. Program najprv vypočíta koľko možných pohybov musí vykonať aby zaplnil všetky políčka na šachovnici. Toto sa vypočíta pomocou `iterations = chessboard_size * chessboard_size - 1`
+###  Stručný opis riešenia 
 
+Riešenie je rekurzívna metóda vyhľadávania do hĺbky, do ktorej je zakomponované Warnsdorfe pravidlo.  Program načítava zo vstupu veľkosť šachovnice zo vstupu, a X,Y súradnice políčka z ktorého bude program začínať. 
 
-### For  v ktorom sa hľadá riešenie 
+### Postup fungovania algoritmu:
 
+ 1. Funkcia `solveDPS` sa zavolá
+ 2.  Program do premennej `positions` načíta pomocou `checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)` všetky možné políčka kam môže kôň isť 
+ 3.  `positions` sa zoradia  poďla Warnsdorfoveho pravidla od tých ktoré na majú najmenej dalších krokov toto zabezpečí metóda `bubblesort`
+ 4.  Cyklus ktorý iteruje cez `positions` a ide sa presunúť na nové políčko 
+ 5. Ak je daná pozícia správna tak sa na nu pripíše číslo iterácie a kôň sa na nu presunie
+ 6. Následne sa zavolá znova funckia `solveDPS `
+ 7. Ak už riešenia neexistujú tak program sa postupne vracia a hľadá riešenia
+ 
+### Reprezentácia údajov	
+
+#### Možné pohyby koňa sú reprezentované
 ```python
-for x in range(iterations):  
-    positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)  
-    if(len(positions) == 0):  
-        print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")  
-        break  
-  minimum = positions[0]  
-  
-    for possible_move in positions:  
-        possible_move_positions = checkHorseInChessboard(chessboard_size,possible_move[0],possible_move[1],x_move,y_move,chessboard)  
-        possible_minimum = checkHorseInChessboard(chessboard_size,minimum[0],minimum[1],x_move,y_move,chessboard)  
-  
-        if(len(possible_minimum) >= len(possible_move_positions) or len(minimum) == 0):  
-            minimum = possible_move  
-  
-    moves_counter += 1  
-  position_x = minimum[0]  
-    position_y = minimum[1]  
-    chessboard[position_x][position_y] = moves_counter
+x_move = [2, 1, -1, -2, -2, -1, 1, 2]  
+y_move = [1, 2, 2, 1, -1, -2, -2, -1]
+```
+#### Vytvorenie poľa vyplneného -1
+```python
+chessboard = [[-1 for i in range(chessboard_size)] for i in range(chessboard_size)]
 ```
 
-### Algoritmus 
-Tento for cyklus sa opakuje toľko krát koľko krokov môže kôň pre daný rozmer šachovnice vykonať.
-Program funguje tak že sa pozrie na to čo je stav do ktorého sa pozrieme a ako veľa dalších možných
-stavov sa môže vytvoriť v ňom. Ďalší krok teda bude taký že sa vyberie ten stav ktorý ma najmenej možných
-nasledujúcich krokov. Ako sa správna pozícia nájde kôň sa na nu prepisuje a `moves_counter` sa zvýši o 1.
-Ako náhle prejdu všetky iterácie a nikde sa program nenastavil riešenie sa vypíše spolu s časovým údajom koľko trvalo
-aby program našiel všetky cesty. Ako posledné sa zavolá funkcia finalCheck ktorá ešte preistotu prejde celú šachovnicu
-a skontroluje či tam nieje 0. 
+#### Presun po šachovnici
+
+```python
+new_postion_x = i[0]  
+new_postion_y = i[1]
+``` 
+
+
+
+### Dôležité metódy 
+
+#### checkHorseInChessbord()
+Táto metóda vráti pole v ktorom sú všetky možné pohyby koňa a taktiež sa v tejto metóde používa metóda `moveValidation` aby nenastala kombinácia ktorá je mimo hracej plochy.
+```python
+def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):  
+    layout = []  
+    for i in range(8):  
+        if moveValidation(position_x + x_move[i], position_y + y_move[i], chessboard_size,chessboard):  
+            layout.append([position_x + x_move[i], position_y + y_move[i]])  
+    return layout
+```
+#### moveValidation()
+
+Metóda overuje či daná súradnica sa nachádza v šachovnici a či na danej súracnici sa nachádza -1 aby sa kôň mohol na nu presunúť. 
+```python
+def moveValidation(position_x, position_y, chessboard_size,chessboard):  
+    if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == -1:  
+        return True  
+ else:  
+        return False
+```
+
+
+
 
 # Testovanie
-|Veľkosť šachovnice  | Pozícia X | Pozícia Y | Vykonaný čas (ms)  | Počet pohybov|
-|--|--|--|--|--|
-| 5x5 | 0 | 0 | 0.709 | 25 |
-|5x5|1|2|XXX|XXX*|
-|5x5|3|4|XXX|XXX*|
-|5x5|2|2|0.868|25||
-|7x7|0|0|2.205|49|
-|8x8|1|1|3.0|64|
-|10x10|3|5|5.485|100|
-|10x10|6|1|4.603|100|
-|15x15|5|5|7.65|225|
-|100x100|0|0|390.915|10000|
-|255x255|50|50|2549.646|65025
+Testovanie programu prebiehali vo vývojovom prestredí PyCharm. Všetky otestované vstupy poli načítane z konzole PyCharm. Z testov je pekne vydieť kedy sa program musel vrátiť a skúšať iné pozície ako napríklad test č.3 kde program musel vykonať až 1734 krokov narozdiel od testu č.1 kde stačilo len 25 krokov.
+|Test|Veľkosť šachovnice  | Pozícia X | Pozícia Y | Vykonaný čas (ms)  | Počet pohybov|
+|--|--|--|--|--|--|
+|1| 5x5 | 0 | 0 | 1.014 | 25 |
+|2|5x5|1|2|8558.137|1028893*|
+|3|5x5|0|2|24.71 |**1734**|
+|4|5x5|2|2|1.22|25||
+|5|6x6|3|3|4.002|**63**|
+|6|6x6|5|5|1.56|36|
+|7|7x7|0|0|2.205|**49**|
+|8|8x8|1|1|2.791|64|
+|9|8x8|3|7|3.14|64|
+|10|10x10|3|5|8.317|100|
+||1125x25|1|3|41.473|625|
 
 *pre tento vstup program nenašiel riešenie 
 
-## Zhrnutie
+# Zhodnotenie riešenia
 
-Na zlepšenie výsledku aby mohlo viac vstupov fungovať by bolo možno lepšie skúšať všetky možné možnosti ktoré 
-kôň môže prejsť čo by ale zapríčinilo veľmi vysoký počet operácií a program by sa vykonával veľmi dlho.
-Toto riešenie podľa Winsoff rule je celkom časovo nenáročné a s vysokou úspešnosťou, pretože program dokázal vyriešiť
-šachovnicu o veľkosti 255x255 pomerne za dobrý čas. 
+Samotné Warnsdorfe pravidlo je veľmi efektívne a dokáže nájsť veľmi rýchlo správne riešenie. Ale pri niektorých vstupoch nestačilo na to aby cestu našlo. Vďaka prehladávaniu do hĺbky program sa dokáže vrátiť a skúšať iné cesty ktoré ktoré sú možno a pravdepodobnosť že riešenie program nájde sa omnoho zvýši. Nevýhodou prehľadávania do hĺbky je to že program má vyššiu časovú a pamäťovú náročnosť. 

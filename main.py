@@ -36,15 +36,12 @@ def EulerSolve(chessboard_size):
 def checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move,chessboard):
     layout = []
     for i in range(8):
-        #print("X: " + str(position_x + x_move[i]), "Y : " + str(position_y+ y_move[i]))
         if moveValidation(position_x + x_move[i], position_y + y_move[i], chessboard_size,chessboard):
             layout.append([position_x + x_move[i], position_y + y_move[i]])
     return layout
 
 def moveValidation(position_x, position_y, chessboard_size,chessboard):
-
     if position_x >= 0 and position_x < chessboard_size and position_y >= 0 and position_y < chessboard_size and chessboard[position_x][position_y] == -1:
-        #print("VALID: " + str(position_x) +  " AND " + str(position_y))
         return True
     else:
         return False
@@ -54,7 +51,6 @@ def printChessboard(chessboard,chessboard_size):
         for y in range(chessboard_size):
             print(chessboard[x][y], end=" ")
         print("")
-
 
 def bubblesort(list,x_move,y_move,chessboard):
     for iter_num in range(len(list)-1,0,-1):
