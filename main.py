@@ -1,7 +1,6 @@
 import time
 
-steps_program = 0
-
+steps_program = 1
 
 def EulerSolve(chessboard_size):
     x_move = [2, 1, -1, -2, -2, -1, 1, 2]
@@ -56,45 +55,6 @@ def printChessboard(chessboard,chessboard_size):
             print(chessboard[x][y], end=" ")
         print("")
 
-def windstoffAlgorithm(starting_position_x,starting_position_y,chessboard,x_move, y_move,chessboard_size):
-    position_x = starting_position_x
-    position_y = starting_position_y
-
-    start = time.time_ns()
-
-    moves_counter = 1
-
-    chessboard[position_x][position_y] = moves_counter
-
-    iterations = chessboard_size * chessboard_size - 1
-
-    for x in range(iterations):
-        positions = checkHorseInChessboard(chessboard_size, position_x, position_y, x_move, y_move, chessboard)
-        if(len(positions) == 0):
-            print("NO SOLUTION FOR THIS INPUT TRY ANOTHER ONE")
-            break
-        minimum = positions[0]
-
-        for possible_move in positions:
-            possible_move_positions = checkHorseInChessboard(chessboard_size,possible_move[0],possible_move[1],x_move,y_move,chessboard)
-            possible_minimum = checkHorseInChessboard(chessboard_size,minimum[0],minimum[1],x_move,y_move,chessboard)
-
-            if(len(possible_minimum) >= len(possible_move_positions) or len(minimum) == 0):
-                minimum = possible_move
-
-        moves_counter += 1
-        position_x = minimum[0]
-        position_y = minimum[1]
-        chessboard[position_x][position_y] = moves_counter
-
-    printChessboard(chessboard,chessboard_size)
-    end = time.time_ns()
-    total_time = end - start
-    print("------------------------")
-    print("TOTAL MOVES " + str(moves_counter))
-    print("TOTAL TIME: " + str(total_time/1000000) + " milliseconds..")
-    if(finalCheck(chessboard,chessboard_size) == False):
-        print("NO SOLUTION")
 
 def bubblesort(list,x_move,y_move,chessboard):
     for iter_num in range(len(list)-1,0,-1):
